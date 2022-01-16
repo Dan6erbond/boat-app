@@ -1,0 +1,27 @@
+{
+  "folders": [
+    {
+      "name": "Boat App",
+      "path": "./"
+    },
+    {
+      "name": "Spring Boot API",
+      "path": "./api"
+    },
+    {
+      "name": "React SPA",
+      "path": "./client"
+    }
+],
+  "extensions": {
+    "recommendations": [
+      "vscjava.vscode-java-pack",
+      "dsznajder.es7-react-js-snippets",
+      "rbbit.typescript-hero",
+      "ms-azuretools.vscode-docker",
+      "rangav.vscode-thunder-client",
+      "eamodio.gitlens",
+      "github.vscode-pull-request-github"
+    ]
+  }
+}
