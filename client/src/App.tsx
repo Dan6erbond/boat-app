@@ -1,4 +1,4 @@
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { LockIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -6,7 +6,7 @@ import {
   HStack,
   IconButton,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -44,6 +44,7 @@ function App() {
                 onClick={toggleColorMode}
               />
             )}
+            <IconButton aria-label="Sign out" icon={<LockIcon />} />
           </HStack>
         </Flex>
         <Box p={4}>
