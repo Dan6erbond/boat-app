@@ -44,6 +44,7 @@ export const LoginPage = () => {
 
   const shadow = useColorModeValue("md", "none");
   const borderColor = useColorModeValue("none", "gray.700");
+  const borderWidth = useColorModeValue(0, 1);
 
   return (
     <Flex justify="center" p={[6, null, 8, null, 16]}>
@@ -52,7 +53,7 @@ export const LoginPage = () => {
         rounded="md"
         p={[6, null, 8, null, 16]}
         borderColor={borderColor}
-        borderWidth={1}
+        borderWidth={borderWidth}
       >
         <VStack spacing={4}>
           <Heading>Log In</Heading>
