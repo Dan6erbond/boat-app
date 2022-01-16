@@ -54,6 +54,7 @@ export const LoginPage = () => {
         p={[6, null, 8, null, 16]}
         borderColor={borderColor}
         borderWidth={borderWidth}
+        w={["full", null, "auto"]}
       >
         <VStack spacing={4}>
           <Heading>Log In</Heading>
