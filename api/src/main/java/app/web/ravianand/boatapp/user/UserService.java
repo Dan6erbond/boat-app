@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import app.web.ravianand.boatapp.user.dto.CreateUserRequest;
 import app.web.ravianand.boatapp.user.exceptions.UserNotFoundException;
+import app.web.ravianand.boatapp.user.exceptions.UsernameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,7 +22,7 @@ public class UserService implements UserDetailsService {
 
   public User create(CreateUserRequest request) {
     if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-      throw new IllegalArgumentException("Username already exists");
+      throw new UsernameAlreadyExistsException(request.getUsername());
     }
     User user = new User(request.getUsername(), passwordEncoder.encode(request.getPassword()),
         request.getFirstName(), request.getLastName());

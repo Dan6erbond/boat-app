@@ -2,6 +2,7 @@ package app.web.ravianand.boatapp.user.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import app.web.ravianand.boatapp.security.PasswordConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ public class CreateUserRequest {
   private String username;
 
   @NotBlank(message = "Password is mandatory")
+  @PasswordConstraint
   private String password;
 
   @NotBlank(message = "First name is mandatory")

@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class LoginView {
+public class RegisterView {
 
   private String accessToken;
   private UserDTO user;

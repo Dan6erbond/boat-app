@@ -7,17 +7,18 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-import app.web.ravianand.boatapp.auth.dto.LoginView;
+import app.web.ravianand.boatapp.auth.dto.RegisterView;
 import app.web.ravianand.boatapp.user.UserController;
 
 @Component
-public class LoginViewModelAssembler implements RepresentationModelAssembler<LoginView, EntityModel<LoginView>> {
+public class RegisterViewModelAssembler
+    implements RepresentationModelAssembler<RegisterView, EntityModel<RegisterView>> {
 
   @Override
-  public EntityModel<LoginView> toModel(LoginView loginView) {
+  public EntityModel<RegisterView> toModel(RegisterView registerView) {
     return EntityModel.of(
-        loginView,
-        linkTo(methodOn(UserController.class).one(loginView.getUser().getId())).withSelfRel());
+        registerView,
+        linkTo(methodOn(UserController.class).one(registerView.getUser().getId())).withSelfRel());
   }
 
 }
