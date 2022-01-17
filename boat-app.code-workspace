@@ -12,7 +12,7 @@
       "name": "React SPA",
       "path": "./client"
     }
-],
+  ],
   "extensions": {
     "recommendations": [
       "vscjava.vscode-java-pack",
@@ -21,7 +21,11 @@
       "ms-azuretools.vscode-docker",
       "rangav.vscode-thunder-client",
       "eamodio.gitlens",
-      "github.vscode-pull-request-github"
+      "github.vscode-pull-request-github",
+      "gabrielbb.vscode-lombok"
     ]
+  },
+  "settings": {
+    "java.configuration.updateBuildConfiguration": "automatic"
   }
 }
