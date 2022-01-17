@@ -19,6 +19,7 @@ import app.web.ravianand.boatapp.user.User;
 import app.web.ravianand.boatapp.user.UserService;
 import app.web.ravianand.boatapp.user.assembler.UserModelAssembler;
 import app.web.ravianand.boatapp.user.dto.CreateUserRequest;
+import app.web.ravianand.boatapp.user.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -40,7 +41,7 @@ public class AuthController {
       return ResponseEntity.ok()
           .body(
               loginViewAssembler
-                  .toModel(new LoginView(user.getId(), loginRequest.getUsername(), loginRequest.getPassword(),
+                  .toModel(new LoginView(user.getId(), loginRequest.getPassword(),
                       jwtTokenUtil.generateAccessToken(user))));
     } catch (Exception e) {
       System.out.println("/--------------------WRONG PASSWORD-----------------");
@@ -49,7 +50,7 @@ public class AuthController {
   }
 
   @PostMapping("/register")
-  EntityModel<User> create(@Valid @RequestBody CreateUserRequest request) {
+  EntityModel<UserDTO> create(@Valid @RequestBody CreateUserRequest request) {
     return userModelAssembler.toModel(userService.create(request));
   }
 

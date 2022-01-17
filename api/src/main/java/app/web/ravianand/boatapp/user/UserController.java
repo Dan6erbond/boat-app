@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.web.ravianand.boatapp.user.assembler.UserModelAssembler;
+import app.web.ravianand.boatapp.user.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -25,8 +26,8 @@ public class UserController {
   private final UserModelAssembler userModelAssembler;
 
   @GetMapping
-  public CollectionModel<EntityModel<User>> all() {
-    List<EntityModel<User>> users = userService.all().stream().map(userModelAssembler::toModel)
+  public CollectionModel<EntityModel<UserDTO>> all() {
+    List<EntityModel<UserDTO>> users = userService.all().stream().map(userModelAssembler::toModel)
         .collect(Collectors.toList());
 
     return CollectionModel.of(
@@ -35,7 +36,7 @@ public class UserController {
   }
 
   @GetMapping("/{id}")
-  public EntityModel<User> one(@PathVariable Long id) {
+  public EntityModel<UserDTO> one(@PathVariable Long id) {
     return userModelAssembler.toModel(userService.one(id));
   }
 

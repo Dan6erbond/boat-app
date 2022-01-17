@@ -9,7 +9,6 @@ public class LoginView {
 
   private Long userId;
   private String username;
-  private String password;
   private String accessToken;
 
 }

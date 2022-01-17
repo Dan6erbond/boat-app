@@ -17,11 +17,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.Data;
+
 @Entity
-@Table(name="users")
+@Table(name = "users")
+@Data
 public class User implements UserDetails {
 
-  private @Id @GeneratedValue Long id;
+  @Id @GeneratedValue
+  private Long id;
 
   @NotBlank(message = "Username is mandatory")
   private String username;
