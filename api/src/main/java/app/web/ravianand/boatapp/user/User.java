@@ -18,13 +18,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
 @Data
+@NoArgsConstructor
 public class User implements UserDetails {
 
-  @Id @GeneratedValue
+  @Id
+  @GeneratedValue
   private Long id;
 
   @NotBlank(message = "Username is mandatory")
@@ -47,9 +50,6 @@ public class User implements UserDetails {
   @Temporal(TemporalType.TIMESTAMP)
   private Date updated;
 
-  User() {
-  }
-
   User(String username, String password, String firstName, String lastName) {
     this.username = username;
     this.password = password;
@@ -60,19 +60,6 @@ public class User implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return new HashSet<>();
-  }
-
-  @Override
-  public String getPassword() {
-    return this.password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public Long getId() {
-    return this.id;
   }
 
   @Override
