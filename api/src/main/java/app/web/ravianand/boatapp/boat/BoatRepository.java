@@ -1,5 +1,7 @@
 package app.web.ravianand.boatapp.boat;
 
-public class BoatRepository {
-  
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BoatRepository extends JpaRepository<Boat, Long> {
+
 }
