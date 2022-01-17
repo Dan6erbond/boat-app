@@ -3,14 +3,17 @@ package app.web.ravianand.boatapp.security;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,16 +24,20 @@ import org.springframework.web.filter.CorsFilter;
 
 import app.web.ravianand.boatapp.user.UserRepository;
 
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final UserRepository userRepository;
-  private final JwtTokenFilter jwtTokenFilter;
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-  public SecurityConfig(UserRepository userRepository, JwtTokenFilter jwtTokenFilter) {
+  public SecurityConfig(UserRepository userRepository, JwtAuthenticationFilter jwtAuthenticationFilter) {
+    super();
+
     this.userRepository = userRepository;
-    this.jwtTokenFilter = jwtTokenFilter;
+    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+
+    SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
   }
 
   @Override
@@ -44,30 +51,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http = http.cors().and().csrf().disable();
-
     http = http
+        .cors(Customizer.withDefaults())
+        .csrf().disable()
+        .httpBasic().disable()
+        .authorizeHttpRequests()
+        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+        .regexMatchers("/error/.*").permitAll()
+        .regexMatchers("/public/.*").permitAll()
+        .regexMatchers("/auth/.*").permitAll()
+        .anyRequest().authenticated()
+        .and()
+        .exceptionHandling().authenticationEntryPoint(
+            (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                "Unauthorized"))
+        .and()
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and();
+        .and()
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+  }
 
-    http = http
-        .exceptionHandling()
-        .authenticationEntryPoint(
-            (request, response, ex) -> {
-              response.sendError(
-                  HttpServletResponse.SC_UNAUTHORIZED,
-                  ex.getMessage());
-            })
-        .and();
-
-    http = http.authorizeRequests()
-        .antMatchers("/api/public/**").permitAll()
-        .antMatchers("/api/auth/**").permitAll()
-        .anyRequest().authenticated()
-        .and();
-
-    http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+  @Override
+  public void configure(WebSecurity webSecurity) throws Exception {
+    webSecurity
+        .ignoring()
+        // All of Spring Security will ignore the requests
+        .antMatchers("/error/**")
+        .antMatchers("/public/**")
+        .antMatchers("/auth/**");
   }
 
   @Bean
@@ -91,11 +103,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
-  }
-
-  @Bean
-  GrantedAuthorityDefaults grantedAuthorityDefaults() {
-    return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
   }
 
 }

@@ -3,6 +3,7 @@ package app.web.ravianand.boatapp.security;
 import java.util.Date;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import app.web.ravianand.boatapp.user.User;
@@ -20,10 +21,9 @@ public class JwtTokenUtil {
   private final String jwtSecret;
   private final String jwtIssuer = "ravianand.web.app";
 
-  private final Logger logger;
+  private static final Logger log = LoggerFactory.getLogger(JwtTokenUtil.class);
 
-  public JwtTokenUtil(Logger logger, JwtProperties jwtProperties) {
-    this.logger = logger;
+  public JwtTokenUtil(JwtProperties jwtProperties) {
     this.jwtSecret = jwtProperties.getSecret();
   }
 
@@ -69,15 +69,15 @@ public class JwtTokenUtil {
       Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
       return true;
     } catch (SignatureException ex) {
-      logger.error("Invalid JWT signature - {}", ex.getMessage());
+      log.error("Invalid JWT signature - {}", ex.getMessage());
     } catch (MalformedJwtException ex) {
-      logger.error("Invalid JWT token - {}", ex.getMessage());
+      log.error("Invalid JWT token - {}", ex.getMessage());
     } catch (ExpiredJwtException ex) {
-      logger.error("Expired JWT token - {}", ex.getMessage());
+      log.error("Expired JWT token - {}", ex.getMessage());
     } catch (UnsupportedJwtException ex) {
-      logger.error("Unsupported JWT token - {}", ex.getMessage());
+      log.error("Unsupported JWT token - {}", ex.getMessage());
     } catch (IllegalArgumentException ex) {
-      logger.error("JWT claims string is empty - {}", ex.getMessage());
+      log.error("JWT claims string is empty - {}", ex.getMessage());
     }
     return false;
   }

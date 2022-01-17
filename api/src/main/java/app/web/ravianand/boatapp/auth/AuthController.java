@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.web.ravianand.boatapp.auth.assembler.LoginViewModelAssembler;
@@ -20,7 +21,8 @@ import app.web.ravianand.boatapp.user.assembler.UserModelAssembler;
 import app.web.ravianand.boatapp.user.dto.CreateUserRequest;
 import lombok.RequiredArgsConstructor;
 
-@RestController("/auth")
+@RestController
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -41,6 +43,7 @@ public class AuthController {
                   .toModel(new LoginView(user.getId(), loginRequest.getUsername(), loginRequest.getPassword(),
                       jwtTokenUtil.generateAccessToken(user))));
     } catch (Exception e) {
+      System.out.println("/--------------------WRONG PASSWORD-----------------");
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
   }

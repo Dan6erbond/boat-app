@@ -2,9 +2,11 @@ package app.web.ravianand.boatapp.user.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class CreateUserRequest {
 
   @NotBlank(message = "Username is mandatory")

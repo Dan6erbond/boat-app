@@ -13,27 +13,25 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import app.web.ravianand.boatapp.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 
-
-public class JwtTokenFilter extends OncePerRequestFilter {
+@Component
+@RequiredArgsConstructor
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtTokenUtil jwtTokenUtil;
   private final UserRepository userRepository;
-
-  public JwtTokenFilter(JwtTokenUtil jwtTokenUtil, UserRepository userRepository) {
-    this.jwtTokenUtil = jwtTokenUtil;
-    this.userRepository = userRepository;
-  }
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
     final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-    if (header.isEmpty() || !header.startsWith("Bearer ")) {
+    if (header == null || header.isEmpty() || !header.startsWith("Bearer ")) {
       chain.doFilter(request, response);
       return;
     }

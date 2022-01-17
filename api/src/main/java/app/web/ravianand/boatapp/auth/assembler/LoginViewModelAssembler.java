@@ -5,10 +5,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Component;
 
 import app.web.ravianand.boatapp.auth.dto.LoginView;
 import app.web.ravianand.boatapp.user.UserController;
 
+@Component
 public class LoginViewModelAssembler implements RepresentationModelAssembler<LoginView, EntityModel<LoginView>> {
 
   @Override
