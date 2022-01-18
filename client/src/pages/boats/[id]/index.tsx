@@ -1,5 +1,13 @@
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Flex, Heading, HStack, IconButton, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  HStack,
+  IconButton,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -15,7 +23,7 @@ export const BoatPage = () => {
   return (
     <>
       {isLoading || !boat ? null : (
-        <Box>
+        <VStack spacing={4} align="stretch">
           <Flex justify="space-between">
             <Heading>{boat.name}</Heading>
             <HStack spacing={2}>
@@ -33,7 +41,7 @@ export const BoatPage = () => {
             </HStack>
           </Flex>
           <Text>{boat.description}</Text>
-        </Box>
+        </VStack>
       )}
     </>
   );
