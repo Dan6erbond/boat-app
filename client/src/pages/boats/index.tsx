@@ -86,7 +86,10 @@ export const BoatsPage = () => {
                 </Text>
                 <Box flexGrow={1} />
                 <IconButton
-                  onClick={() => navigate(`/boats/${boat.id}/edit`)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(`/boats/${boat.id}/edit`);
+                  }}
                   aria-label="Edit boat."
                   icon={<EditIcon />}
                 />
