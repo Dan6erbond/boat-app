@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+import { BoatViewSkeleton } from "../../../components/BoatViewSkeleton";
 import {
   useDeleteBoatMutation,
   useGetBoatByIdQuery,
@@ -21,8 +22,10 @@ export const BoatPage = () => {
   const [deleteBoat] = useDeleteBoatMutation();
 
   return (
-    <>
-      {isLoading || !boat ? null : (
+    <Box>
+      {isLoading || !boat ? (
+        <BoatViewSkeleton />
+      ) : (
         <VStack spacing={4} align="stretch">
           <Flex justify="space-between">
             <Heading>{boat.name}</Heading>
@@ -43,6 +46,6 @@ export const BoatPage = () => {
           <Text>{boat.description}</Text>
         </VStack>
       )}
-    </>
+    </Box>
   );
 };

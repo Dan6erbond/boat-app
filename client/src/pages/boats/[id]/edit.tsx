@@ -18,6 +18,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
+import { BoatViewSkeleton } from "../../../components/BoatViewSkeleton";
 import {
   useDeleteBoatMutation,
   useGetBoatByIdQuery,
@@ -52,7 +53,9 @@ export const EditBoatPage = () => {
 
   return (
     <>
-      {isLoading || !boat ? null : (
+      {isLoading || !boat ? (
+        <BoatViewSkeleton />
+      ) : (
         <VStack spacing={4}>
           <Flex justify="space-between" w="full">
             <Heading>
