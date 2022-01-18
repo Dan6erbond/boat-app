@@ -1,63 +1,34 @@
 import { DeleteIcon, ViewIcon } from "@chakra-ui/icons";
 import {
-  Button,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   Heading,
   HStack,
   IconButton,
-  Input,
   Tag,
-  Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import * as yup from "yup";
+import { BoatForm } from "../../../components/BoatForm";
 import { BoatViewSkeleton } from "../../../components/BoatViewSkeleton";
 import {
   useDeleteBoatMutation,
   useGetBoatByIdQuery,
-  useUpdateBoatMutation,
 } from "../../../lib/store/boatApi";
 
-const boatSchema = yup.object({
-  name: yup.string().required(),
-  description: yup.string().min(10).required(),
-});
-
-export type BoatSchema = yup.InferType<typeof boatSchema>;
-
 export const EditBoatPage = () => {
-  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+
   const { isLoading, data: boat } = useGetBoatByIdQuery({ id: parseInt(id!) });
-  const [updateBoat] = useUpdateBoatMutation();
   const [deleteBoat] = useDeleteBoatMutation();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<BoatSchema>({
-    resolver: yupResolver(boatSchema),
-    defaultValues: boat,
-  });
-
-  const onSubmit = async (data: BoatSchema) => {
-    await updateBoat({ id: parseInt(id!), ...data });
-  };
 
   return (
     <>
       {isLoading || !boat ? (
         <BoatViewSkeleton />
       ) : (
-        <VStack spacing={4}>
+        <VStack spacing={4} align="stretch">
           <Flex justify="space-between" w="full">
             <Heading>
               <Tag>{boat.id}</Tag> Edit Boat
@@ -79,33 +50,7 @@ export const EditBoatPage = () => {
               />
             </HStack>
           </Flex>
-          <VStack
-            as="form"
-            spacing={4}
-            w="full"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <FormControl isRequired isInvalid={!!errors.name}>
-              <FormLabel>Name</FormLabel>
-              <Input placeholder="Boat Name" {...register("name")} />
-              {errors.name && (
-                <FormErrorMessage>{errors.name}</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl isRequired isInvalid={!!errors.description}>
-              <FormLabel>Description</FormLabel>
-              <Textarea
-                placeholder="Boat Description"
-                {...register("description")}
-              />
-              {errors.description && (
-                <FormErrorMessage>{errors.description}</FormErrorMessage>
-              )}
-            </FormControl>
-            <Button type="submit" alignSelf="end">
-              Save
-            </Button>
-          </VStack>
+          <BoatForm boat={boat} />
         </VStack>
       )}
     </>
