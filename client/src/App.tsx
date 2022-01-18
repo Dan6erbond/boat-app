@@ -6,10 +6,9 @@ import {
   HStack,
   IconButton,
   useColorMode,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { BoatsPage } from "./pages/boats";
 import { BoatPage } from "./pages/boats/[id]";
@@ -18,21 +17,25 @@ import { LoginPage } from "./pages/login";
 
 function App() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const bg = useColorModeValue("gray.50", "gray.900");
-  const navBorder = useColorModeValue("gray.200", "gray.800");
 
   return (
     <Router>
-      <Box className="App" bg={bg} minH="100vh">
+      <Box
+        className="App"
+        bg={colorMode === "light" ? "gray.50" : "gray.900"}
+        minH="100vh"
+      >
         <Flex
           as="nav"
           px={4}
           py={2}
-          borderBottom={navBorder}
+          borderBottom={colorMode === "light" ? "gray.200" : "gray.800"}
           borderBottomWidth={1}
           justify="space-between"
         >
-          <Heading>Boat App</Heading>
+          <Heading as={Link} to="/">
+            Boat App
+          </Heading>
           <HStack spacing={2}>
             {colorMode === "light" ? (
               <IconButton
