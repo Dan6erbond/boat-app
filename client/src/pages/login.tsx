@@ -13,22 +13,36 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  useColorModeValue,
+  useColorMode,
   VStack,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { RootState } from "../lib/store";
+import { logIn } from "../lib/store/userSlice";
 
 const loginSchema = yup.object({
   username: yup.string().required(),
   password: yup.string().required(),
 });
 
-type LoginSchema = yup.InferType<typeof loginSchema>;
+export type LoginSchema = yup.InferType<typeof loginSchema>;
 
 export const LoginPage = () => {
+  const { colorMode } = useColorMode();
+  const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.user);
+
+  React.useEffect(() => {
+    if (user) {
+      navigate("/boats");
+    }
+  }, [navigate, user]);
+
   const {
     register,
     handleSubmit,
@@ -38,22 +52,20 @@ export const LoginPage = () => {
   });
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const onSubmit = (data: LoginSchema) => {
-    console.log(data);
-  };
+  const dispatch = useDispatch();
 
-  const shadow = useColorModeValue("md", "none");
-  const borderColor = useColorModeValue("none", "gray.700");
-  const borderWidth = useColorModeValue(0, 1);
+  const onSubmit = (data: LoginSchema) => {
+    dispatch(logIn(data));
+  };
 
   return (
     <Flex justify="center" p={[6, null, 8, null, 16]}>
       <Box
-        shadow={shadow}
+        shadow={colorMode === "light" ? "md" : "none"}
         rounded="md"
         p={[6, null, 8, null, 16]}
-        borderColor={borderColor}
-        borderWidth={borderWidth}
+        borderColor={colorMode === "light" ? "none" : "gray.700"}
+        borderWidth={colorMode === "light" ? 0 : 1}
         w={["full", null, "auto"]}
       >
         <VStack spacing={4}>
