@@ -4,6 +4,7 @@ import {
   HStack,
   IconButton,
   Skeleton,
+  SkeletonText,
   Tag,
   Text,
   useColorMode,
@@ -24,7 +25,7 @@ export const BoatsPage = () => {
   return (
     <Box>
       <VStack spacing={4}>
-        {isLoading || !data
+        {isLoading || data === undefined
           ? [...Array(10)].map((_, i) => (
               <Box
                 shadow={colorMode === "light" ? "sm" : "none"}
@@ -39,7 +40,7 @@ export const BoatsPage = () => {
                   <Skeleton height={4} width={6} />
                   <Skeleton height={6} width={28} />
                   <Box flexGrow={1} />
-                  <Skeleton height={12} width={36} />
+                  <SkeletonText />
                   <Box flexGrow={1} />
                   <Skeleton height={6} width={6} />
                   <Skeleton height={6} width={6} />
