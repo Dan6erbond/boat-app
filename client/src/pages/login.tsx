@@ -54,8 +54,8 @@ export const LoginPage = () => {
 
   const dispatch = useDispatch();
 
-  const onSubmit = (data: LoginSchema) => {
-    dispatch(logIn(data));
+  const onSubmit = async (data: LoginSchema) => {
+    await dispatch(logIn(data));
   };
 
   return (

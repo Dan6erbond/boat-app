@@ -15,6 +15,7 @@ import { RequireAuth } from "./components/RequireAuth";
 import { RootState } from "./lib/store";
 import { signOut } from "./lib/store/userSlice";
 import { BoatsPage } from "./pages/boats";
+import { CreateBoatPage } from "./pages/boats/create";
 import { BoatPage } from "./pages/boats/[id]";
 import { EditBoatPage } from "./pages/boats/[id]/edit";
 import { LoginPage } from "./pages/login";
@@ -74,6 +75,14 @@ function App() {
                 element={
                   <RequireAuth>
                     <BoatsPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="create"
+                element={
+                  <RequireAuth>
+                    <CreateBoatPage />
                   </RequireAuth>
                 }
               />
