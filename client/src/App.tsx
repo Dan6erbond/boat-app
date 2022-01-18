@@ -11,6 +11,9 @@ import {
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
+import { BoatsPage } from "./pages/boats";
+import { BoatPage } from "./pages/boats/[id]";
+import { EditBoatPage } from "./pages/boats/[id]/edit";
 import { LoginPage } from "./pages/login";
 
 function App() {
@@ -50,6 +53,11 @@ function App() {
         <Box p={4}>
           <Routes>
             <Route path="/" element={<LoginPage />} />
+            <Route path="/boats">
+              <Route index element={<BoatsPage />} />
+              <Route path=":id" element={<BoatPage />} />
+              <Route path=":id/edit" element={<EditBoatPage />} />
+            </Route>
           </Routes>
         </Box>
       </Box>
