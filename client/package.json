@@ -51,8 +51,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
   "devDependencies": {
     "serve": "^13.0.2"
   },
+  "resolutions": {
+    "mini-css-extract-plugin": "2.4.5"
   }
 }
