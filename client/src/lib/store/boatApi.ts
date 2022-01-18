@@ -23,7 +23,7 @@ export const boatApi = createApi({
     getBoats: builder.query<Boat[], void>({
       query: () => "",
       transformResponse: (response: { _embedded: { boats: Boat[] } }) =>
-        response._embedded.boats,
+        response._embedded?.boats || [],
       providesTags: (result) =>
         // is result available?
         result
