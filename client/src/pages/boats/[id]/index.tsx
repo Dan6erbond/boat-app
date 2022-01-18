@@ -9,7 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { BoatViewSkeleton } from "../../../components/BoatViewSkeleton";
 import {
   useDeleteBoatMutation,
@@ -17,6 +17,7 @@ import {
 } from "../../../lib/store/boatApi";
 
 export const BoatPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { isLoading, data: boat } = useGetBoatByIdQuery({ id: parseInt(id!) });
   const [deleteBoat] = useDeleteBoatMutation();
@@ -37,7 +38,10 @@ export const BoatPage = () => {
                 icon={<EditIcon />}
               />
               <IconButton
-                onClick={() => deleteBoat(boat.id)}
+                onClick={async () => {
+                  await deleteBoat(boat.id);
+                  navigate("/boats");
+                }}
                 aria-label="Delete boat."
                 icon={<DeleteIcon />}
               />
