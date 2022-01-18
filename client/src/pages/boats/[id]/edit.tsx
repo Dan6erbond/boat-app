@@ -45,10 +45,11 @@ export const EditBoatPage = () => {
     formState: { errors },
   } = useForm<BoatSchema>({
     resolver: yupResolver(boatSchema),
+    defaultValues: boat,
   });
 
-  const onSubmit = (data: BoatSchema) => {
-    updateBoat({ id: parseInt(id!), ...data });
+  const onSubmit = async (data: BoatSchema) => {
+    await updateBoat({ id: parseInt(id!), ...data });
   };
 
   return (
@@ -86,11 +87,7 @@ export const EditBoatPage = () => {
           >
             <FormControl isRequired isInvalid={!!errors.name}>
               <FormLabel>Name</FormLabel>
-              <Input
-                value={boat.name}
-                placeholder="Boat Name"
-                {...register("name")}
-              />
+              <Input placeholder="Boat Name" {...register("name")} />
               {errors.name && (
                 <FormErrorMessage>{errors.name}</FormErrorMessage>
               )}
@@ -98,7 +95,6 @@ export const EditBoatPage = () => {
             <FormControl isRequired isInvalid={!!errors.description}>
               <FormLabel>Description</FormLabel>
               <Textarea
-                value={boat.description}
                 placeholder="Boat Description"
                 {...register("description")}
               />
