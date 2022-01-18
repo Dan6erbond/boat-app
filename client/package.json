@@ -30,6 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "serve": "serve -p 3000 -s build -c ./serve.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -50,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  "devDependencies": {
+    "serve": "^13.0.2"
+  },
   }
 }
