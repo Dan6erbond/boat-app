@@ -10,6 +10,7 @@ import {
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 import "./App.css";
+import { RequireAuth } from "./components/RequireAuth";
 import { BoatsPage } from "./pages/boats";
 import { BoatPage } from "./pages/boats/[id]";
 import { EditBoatPage } from "./pages/boats/[id]/edit";
@@ -57,9 +58,30 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/boats">
-              <Route index element={<BoatsPage />} />
-              <Route path=":id" element={<BoatPage />} />
-              <Route path=":id/edit" element={<EditBoatPage />} />
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <BoatsPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":id"
+                element={
+                  <RequireAuth>
+                    <BoatPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":id/edit"
+                element={
+                  <RequireAuth>
+                    <EditBoatPage />
+                  </RequireAuth>
+                }
+              />
             </Route>
           </Routes>
         </Box>
