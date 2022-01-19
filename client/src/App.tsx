@@ -1,11 +1,12 @@
-import { LockIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { AtSignIcon, LockIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
   Heading,
   HStack,
   IconButton,
-  useColorMode
+  Text,
+  useColorMode,
 } from "@chakra-ui/react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +20,7 @@ import { CreateBoatPage } from "./pages/boats/create";
 import { BoatPage } from "./pages/boats/[id]";
 import { EditBoatPage } from "./pages/boats/[id]/edit";
 import { LoginPage } from "./pages/login";
+import { SignUpPage } from "./pages/sign-up";
 
 function App() {
   const { user } = useSelector((state: RootState) => state.user);
@@ -44,6 +46,25 @@ function App() {
             Boat App
           </Heading>
           <HStack spacing={2}>
+            {user && (
+              <>
+                <AtSignIcon />{" "}
+                <Text color="gray.500">
+                  Logged in as:{" "}
+                  <Text
+                    as="span"
+                    color={colorMode === "light" ? "black" : "white"}
+                  >
+                    {user.firstName} {user.lastName}
+                  </Text>
+                </Text>
+                <IconButton
+                  aria-label="Sign out"
+                  icon={<LockIcon />}
+                  onClick={() => dispatch(signOut())}
+                />
+              </>
+            )}
             {colorMode === "light" ? (
               <IconButton
                 aria-label="Switch color mode to dark mode"
@@ -57,18 +78,12 @@ function App() {
                 onClick={toggleColorMode}
               />
             )}
-            {user && (
-              <IconButton
-                aria-label="Sign out"
-                icon={<LockIcon />}
-                onClick={() => dispatch(signOut())}
-              />
-            )}
           </HStack>
         </Flex>
         <Box p={4}>
           <Routes>
             <Route path="/" element={<LoginPage />} />
+            <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/boats">
               <Route
                 index

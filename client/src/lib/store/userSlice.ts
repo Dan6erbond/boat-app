@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LoginSchema } from "../../pages/login";
+import { SignUpSchema } from "../../pages/sign-up";
 import { User } from "../../types/User";
 
 export const logIn = createAsyncThunk(
@@ -14,6 +15,24 @@ export const logIn = createAsyncThunk(
     });
     const user = await response.json();
     return user;
+  }
+);
+
+export const signUp = createAsyncThunk(
+  "user/signUp",
+  async (newUser: Omit<SignUpSchema, "rePassword">, { rejectWithValue }) => {
+    const response = await fetch("http://localhost:8080/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    });
+    const res = await response.json();
+    if (res.errors) {
+      return rejectWithValue(res.errors);
+    }
+    return res;
   }
 );
 
@@ -37,8 +56,10 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(
-      logIn.fulfilled,
+    builder.addMatcher(
+      (action) =>
+        action.type === "user/logIn/fulfilled" ||
+        action.type === "user/signUp/fulfilled",
       (state, action: PayloadAction<{ user: User; accessToken: string }>) => {
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;

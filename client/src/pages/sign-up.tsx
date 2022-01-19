@@ -25,16 +25,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { RootState } from "../lib/store";
-import { logIn } from "../lib/store/userSlice";
+import { signUp } from "../lib/store/userSlice";
 
-const loginSchema = yup.object({
+const signUpSchema = yup.object({
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
   username: yup.string().required(),
   password: yup.string().required(),
+  rePassword: yup
+    .string()
+    .required()
+    .oneOf([yup.ref("password")], "Passwords must match"),
 });
 
-export type LoginSchema = yup.InferType<typeof loginSchema>;
+export type SignUpSchema = yup.InferType<typeof signUpSchema>;
 
-export const LoginPage = () => {
+export const SignUpPage = () => {
   const { colorMode } = useColorMode();
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.user);
@@ -49,15 +55,24 @@ export const LoginPage = () => {
     register,
     handleSubmit,
     formState: { errors, touchedFields },
-  } = useForm<LoginSchema>({
-    resolver: yupResolver(loginSchema),
+    setError,
+  } = useForm<SignUpSchema>({
+    resolver: yupResolver(signUpSchema),
   });
   const [showPassword, setShowPassword] = React.useState(false);
 
   const dispatch = useDispatch();
 
-  const onSubmit = async (data: LoginSchema) => {
-    await dispatch(logIn(data));
+  const onSubmit = async (data: SignUpSchema) => {
+    const res = (await dispatch(signUp(data))) as any;
+    if (res.type === "user/signUp/rejected") {
+      for (const key in res.payload) {
+        setError(key as keyof SignUpSchema, {
+          type: "manual",
+          message: res.payload[key],
+        });
+      }
+    }
   };
 
   return (
@@ -71,14 +86,36 @@ export const LoginPage = () => {
         w={["full", null, "auto"]}
       >
         <VStack spacing={4}>
-          <Heading>Log In</Heading>
+          <Heading>Sign Up</Heading>
           <VStack
-            as={"form"}
+            as="form"
             spacing={4}
             align="center"
             alignSelf="center"
             onSubmit={handleSubmit(onSubmit)}
           >
+            <FormControl isRequired isInvalid={!!errors.firstName}>
+              <FormLabel>First Name</FormLabel>
+              <Input placeholder="First Name" {...register("firstName")} />
+              {errors.firstName ? (
+                <FormErrorMessage>{errors.firstName.message}</FormErrorMessage>
+              ) : (
+                !touchedFields.firstName && (
+                  <FormHelperText>Enter your first name.</FormHelperText>
+                )
+              )}
+            </FormControl>
+            <FormControl isRequired isInvalid={!!errors.lastName}>
+              <FormLabel>Last Name</FormLabel>
+              <Input placeholder="Last Name" {...register("lastName")} />
+              {errors.lastName ? (
+                <FormErrorMessage>{errors.lastName.message}</FormErrorMessage>
+              ) : (
+                !touchedFields.lastName && (
+                  <FormHelperText>Enter your last name.</FormHelperText>
+                )
+              )}
+            </FormControl>
             <FormControl isRequired isInvalid={!!errors.username}>
               <FormLabel>Username</FormLabel>
               <InputGroup>
@@ -124,14 +161,30 @@ export const LoginPage = () => {
                 )
               )}
             </FormControl>
+            <FormControl isRequired isInvalid={!!errors.rePassword}>
+              <FormLabel>Repeat Password</FormLabel>
+              <Input
+                pr={12}
+                placeholder="Repeat your Password"
+                type="password"
+                {...register("rePassword")}
+              />
+              {errors.rePassword ? (
+                <FormErrorMessage>{errors.rePassword.message}</FormErrorMessage>
+              ) : (
+                !touchedFields.rePassword && (
+                  <FormHelperText>Repeat your password.</FormHelperText>
+                )
+              )}
+            </FormControl>
             <Flex justify="space-between" align="center" gap={4}>
               <Text color="gray.500">
-                Don't have an account yet?{" "}
-                <Link color="blue.600" as={RouterLink} to="/sign-up">
-                  Sign Up
+                Already have an account?{" "}
+                <Link color="blue.600" as={RouterLink} to="/login">
+                  Log In
                 </Link>
               </Text>
-              <Button type="submit">Log In</Button>
+              <Button type="submit">Sign Up</Button>
             </Flex>
           </VStack>
         </VStack>
