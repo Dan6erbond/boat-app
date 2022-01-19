@@ -5,9 +5,9 @@ Boat CRUD application featuring a Spring Boot RESTful API and React frontend.
 ## Setup
 
 ### Prerequisites
- -. Docker w/ Docker Compose CLI
+ - Docker w/ Docker Compose CLI
 
- -# Dev Setup
+### Dev Setup
 
 This project comes with a `docker-compose.dev.yml` file, which starts a Postgres container for development and exposes port 5432 for database connections.
 
