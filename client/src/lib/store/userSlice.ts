@@ -5,7 +5,7 @@ import { User } from "../../types/User";
 
 export const logIn = createAsyncThunk(
   "user/logIn",
-  async (creds: LoginSchema) => {
+  async (creds: LoginSchema, { rejectWithValue }) => {
     const response = await fetch("http://localhost:8080/api/auth/login", {
       method: "POST",
       headers: {
@@ -13,8 +13,11 @@ export const logIn = createAsyncThunk(
       },
       body: JSON.stringify(creds),
     });
-    const user = await response.json();
-    return user;
+    const res = await response.json();
+    if (res.errors) {
+      return rejectWithValue(res.errors);
+    }
+    return res;
   }
 );
 
