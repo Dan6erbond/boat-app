@@ -49,6 +49,7 @@ export const LoginPage = () => {
     register,
     handleSubmit,
     formState: { errors, touchedFields },
+    setError,
   } = useForm<LoginSchema>({
     resolver: yupResolver(loginSchema),
   });
@@ -57,7 +58,15 @@ export const LoginPage = () => {
   const dispatch = useDispatch();
 
   const onSubmit = async (data: LoginSchema) => {
-    await dispatch(logIn(data));
+    const res = (await dispatch(logIn(data))) as any;
+    if (res.type === "user/logIn/rejected") {
+      for (const key in res.payload) {
+        setError(key as keyof LoginSchema, {
+          type: "manual",
+          message: res.payload[key],
+        });
+      }
+    }
   };
 
   return (
