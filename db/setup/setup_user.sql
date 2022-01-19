@@ -1,0 +1,2 @@
+CREATE USER springuser WITH PASSWORD 'spring123';
+GRANT ALL PRIVILEGES ON DATABASE boat_db TO springuser;
