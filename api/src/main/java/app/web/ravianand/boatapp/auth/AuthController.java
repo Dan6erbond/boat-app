@@ -36,8 +36,8 @@ public class AuthController {
 
   @PostMapping("/login")
   public EntityModel<LoginView> login(@Valid @RequestBody LoginRequest loginRequest) {
-    authenticationManager.authenticate(loginRequest.toAuthenticationToken());
     User user = (User) userService.loadUserByUsername(loginRequest.getUsername());
+    authenticationManager.authenticate(loginRequest.toAuthenticationToken());
     return loginViewAssembler
         .toModel(new LoginView(jwtTokenUtil.generateAccessToken(user),
             modelMapper.map(user, UserDTO.class)));

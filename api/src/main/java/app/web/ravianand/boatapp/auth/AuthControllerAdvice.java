@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,15 @@ public class AuthControllerAdvice {
   public Map<String, Object> handleAuthenticationException(AuthenticationException ex) {
     Map<String, String> errors = new HashMap<>();
     errors.put("password", ex.getMessage());
+    return errorResponseBuilder.buildErrorResponse(errors);
+  }
+
+  @ResponseBody
+  @ExceptionHandler(UsernameNotFoundException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public Map<String, Object> handleUsernameNotFoundException(AuthenticationException ex) {
+    Map<String, String> errors = new HashMap<>();
+    errors.put("username", ex.getMessage());
     return errorResponseBuilder.buildErrorResponse(errors);
   }
 
