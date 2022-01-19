@@ -2,6 +2,7 @@ package app.web.ravianand.boatapp.boat;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -30,6 +31,7 @@ public class Boat {
   @NotBlank(message = "Name is mandatory")
   private String name;
 
+  @Column(columnDefinition = "TEXT")
   @NotBlank(message = "Description is mandatory")
   @Size(min = 10, message = "Description must be at least 10 characters long")
   private String description;
