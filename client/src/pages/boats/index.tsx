@@ -94,7 +94,10 @@ export const BoatsPage = () => {
                   icon={<EditIcon />}
                 />
                 <IconButton
-                  onClick={() => deleteBoat(boat.id)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    deleteBoat(boat.id);
+                  }}
                   aria-label="Delete boat."
                   icon={<DeleteIcon />}
                 />
