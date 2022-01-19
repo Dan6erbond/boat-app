@@ -5,60 +5,32 @@ Boat CRUD application featuring a Spring Boot RESTful API and React frontend.
 ## Setup
 
 ### Prerequisites
+ -. Docker w/ Docker Compose CLI
 
-1. Docker w/ Docker Compose CLI
+ -# Dev Setup
 
-### Setting up a PostgreSQL Database
+This project comes with a `docker-compose.dev.yml` file, which starts a Postgres container for development and exposes port 5432 for database connections.
 
-Run the `docker-compose.yml` file to create a Docker container with the PostgreSQL image:
+The React app can be launched with React-Scripts `start` command and Spring Boot API with `mvnw spring-boot:run` (`mvnw.cmd` on Windows).
 
-```sh
-$ docker compose up --build
-```
+### Running the App
 
-Connect to the container shell:
+To run all the services with Docker Compose, run the `docker compose up --build` command which will use the [`docker-compose.yml`](./docker-compose.yml) file to start the services and expose the API on port 8080 as well as the frontend on port 3000.
 
-```sh
-$ docker exec -it boat-app-postgresql bash
-```
+## Architecture
 
-Setup a new Postgres user for the application:
+There are two main services:
 
-```sql
-CREATE USER springuser WITH PASSWORD 'spring123';
-GRANT ALL PRIVILEGES ON DATABASE boat_db TO springuser;
-```
+ - Frontend: React app using [ChakraUI](https://chakra-ui.com/), [Redux Toolkit](https://redux-toolkit.js.org/) and [RTK Query](https://redux-toolkit.js.org/rtk-query/overview). Scaffolded with the [Create React App](https://create-react-app.dev/) boilerplate.
+ - API: Spring Boot RESTful API with authentication using [Spring Security](https://spring.io/projects/spring-security), [JPA](https://spring.io/projects/spring-data-jpa) and [HATEOAS](https://spring.io/projects/spring-hateoas). Boilerplate and constructors are generated at runtime using [Project Lombok](https://projectlombok.org/).
 
-### Building the Spring Boot REST API
+## Expansions
 
-Change into the API directory:
+This section lists possible expansions to improve the application which have not yet been implemented.
 
-```sh
-$ cd ./api
-```
+ - Improved error handling: Various errors can be handled by the application through guards and custom exceptions.
+ - Tests: This application does not implement any tests yet.
 
-### Building the React Frontend
+## License
 
-Change into the client directory:
-
-```sh
-$ cd ./client
-```
-
-Install all the dependencies:
-
-```sh
-$ yarn
-```
-
-Build the React app:
-
-```sh
-$ yarn build
-```
-
-Run a Node server to serve the frontend:
-
-```sh
-$ yarn serve
-```
+This project is licensed under [GNU GPL v3.0](./LICENSE).
