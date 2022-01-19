@@ -81,7 +81,7 @@ export const BoatsPage = () => {
                 <Tag>{boat.id}</Tag>
                 <Text fontWeight="bold">{boat.name}</Text>
                 <Box flexGrow={1} />
-                <Text color={colorMode === "light" ? "gray.100" : "gray.400"}>
+                <Text color={colorMode === "light" ? "gray.700" : "gray.400"}>
                   {boat.description}
                 </Text>
                 <Box flexGrow={1} />
