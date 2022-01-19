@@ -1,9 +1,11 @@
-FROM adoptopenjdk/openjdk11:jdk-11.0.11_9 AS builder
+FROM maven:3.6.0-jdk-11-slim AS builder
 WORKDIR /usr/src/app
 COPY . .
-RUN ./mvnw clean install -DskipTests
+# RUN dos2unix mvnw
+# RUN chmod +x mvnw
+RUN mvn clean install -DskipTests
 
-FROM adoptopenjdk/openjdk11:jdk-11.0.11_9-alpine
+FROM openjdk:11-jre-slim
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app .
 CMD ["java", "-jar", "target/boat-app-0.0.1-SNAPSHOT.jar"]
