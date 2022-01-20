@@ -9,13 +9,47 @@ Boat CRUD application featuring a Spring Boot RESTful API and React frontend.
 
 ### Dev Setup
 
-This project comes with a `docker-compose.dev.yml` file, which starts a Postgres container for development and exposes port 5432 for database connections.
+#### PostgreSQL Database
 
-The React app can be launched with React-Scripts `start` command and Spring Boot API with `mvnw spring-boot:run` (`mvnw.cmd` on Windows).
+This project comes with a [`docker-compose.dev.yml`](docker-compose.dev.yml) file, which starts a Postgres container for development and exposes port 5432 for database connections.
+
+Launch it with the following command:
+
+```sh
+$ docker compose -f docker-compose.dev.yml up --build
+```
+
+#### React App
+
+You must install all the dependencies for the frontend with the following command:
+
+```sh
+$ yarn install
+```
+
+The React app can then be launched with React-Scripts `start` command:
+
+```sh
+$ yarn start
+```
+
+#### Spring Boot Web API
+
+The Spring Boot can be started API with `mvnw spring-boot:run` (`mvnw.cmd` on Windows):
+
+```sh
+$ mvnw spring-boot:run
+```
 
 ### Running the App
 
-To run all the services with Docker Compose, run the `docker compose up --build` command which will use the [`docker-compose.yml`](./docker-compose.yml) file to start the services and expose the API on port 8080 as well as the frontend on port 3000. Launch the app at http://localhost:3000/.
+To run all the services with Docker Compose, use the [`docker-compose.yml`](./docker-compose.yml) file to start the services and expose the API on port 8080 as well as the frontend on port 3000:
+
+```sh
+$ docker compose up --build
+```
+
+Launch the app at http://localhost:3000/.
 
 ## Architecture
 
