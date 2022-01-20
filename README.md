@@ -64,6 +64,7 @@ This section lists possible expansions to improve the application which have not
 
  - Improved error handling: Various errors can be handled by the application through guards and custom exceptions.
  - Tests: This application does not implement any tests yet.
+ - Rotating refresh tokens: Currently access tokens are valid for a week; these should be short-lived and accompanied by a refresh token on authentication requests which are then used to generate a new access token and invalidated after each use.
 
 ## License
 
