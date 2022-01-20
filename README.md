@@ -5,7 +5,11 @@ Boat CRUD application featuring a Spring Boot RESTful API and React frontend.
 ## Setup
 
 ### Prerequisites
+
  - Docker w/ Docker Compose CLI
+ - Node 16+
+ - Yarn
+ - Java Development Kit (JDK) 11
 
 ### Dev Setup
 
